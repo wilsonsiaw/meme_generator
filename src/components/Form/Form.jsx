@@ -4,16 +4,28 @@ import memesData from '../../memesData'
 
 const Form = () => {
 
-    // create state
-    const [memeImage, setMemeImage] = useState("");
+    // create state to hold an object
+    const [meme, setMeme] = useState({
+      topText: "",
+      bottomText: "",
+      randomImage: ""
+    })
+
+    // create state to hold all the meme data
+    const [allMemeImages, setAllMemeImage] = useState(memesData)
 
     // create a function that will randomly get a meme image
     // and render that meme image
     const getMemeImage = () => {
-      const memesArray = memesData.data.memes;
-      const randomNumber = Math.floor(Math.random() * memesArray.length)
+      const memesArray = allMemeImages.data.memes;
+      const randomNumber = Math.floor(Math.random() * memesArray.length);
       const url = memesArray[randomNumber].url;
-      setMemeImage(url);
+      setMeme(prevMeme => {
+        return {
+          ...prevMeme,
+          randomImage: url
+        }
+      })
     }
 
 
@@ -29,7 +41,7 @@ const Form = () => {
             <input type="text" id='bottomText' name='bottomText'/>
         </div>
         <button onClick={getMemeImage}>Get a new meme image  🖼</button>
-        <img src={memeImage} className='meme-image'/>
+        <img src={meme.randomImage} className='meme-image'/>
       </div>
     </div>
   )
